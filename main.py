@@ -1,6 +1,4 @@
-def main():
-    print("Hello from mlops-wine-prediction!")
+from src.mlops_wine_prediction import logger
 
 
-if __name__ == "__main__":
-    main()
+logger.info("Bem vindo ao projeto mlops-wine-prediction!")
