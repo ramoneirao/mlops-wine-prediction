@@ -1,9 +1,9 @@
 from src.mlops_wine_prediction.constants import *
 from src.mlops_wine_prediction.utils.common import read_yaml, create_directories
-
 from src.mlops_wine_prediction.entity.config_entity import (DataIngestionConfig,DataValidationConfig,
                                                             DataTransformationConfig,ModelTrainerConfig,
                                                             ModelEvaluationConfig)
+import os
 
 class ConfigurationManager:
     def __init__(self,
@@ -26,7 +26,6 @@ class ConfigurationManager:
             source_URL=config.source_URL,
             local_data_file=config.local_data_file,
             unzip_dir=config.unzip_dir
-
         )
         return data_ingestion_config
     
@@ -43,7 +42,6 @@ class ConfigurationManager:
             unzip_data_dir = config.unzip_data_dir,
             all_schema=schema,
         )
-
         return data_validation_config
     
 
@@ -72,9 +70,7 @@ class ConfigurationManager:
             alpha = params.alpha,
             l1_ratio = params.l1_ratio,
             target_column = schema.name
-            
         )
-
         return model_trainer_config
     
     
@@ -92,8 +88,6 @@ class ConfigurationManager:
             all_params=params,
             metric_file_name = config.metric_file_name,
             target_column = schema.name,
-            mlflow_uri="https://dagshub.com/krishnaik06/datascienceproject.mlflow"
-
-
+            mlflow_uri=os.environ.get("MLFLOW_TRACKING_URI")
         )
         return model_evaluation_config
