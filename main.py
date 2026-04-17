@@ -3,6 +3,7 @@ from src.mlops_wine_prediction.pipeline.data_ingestion_pipeline import DataInges
 from src.mlops_wine_prediction.pipeline.data_validation_pipeline import DataValidationTrainingPipeline
 from src.mlops_wine_prediction.pipeline.data_transformation_pipeline import DataTransformationTrainingPipeline
 from src.mlops_wine_prediction.pipeline.model_trainer_pipeline import ModelTrainerTrainingPipeline
+from src.mlops_wine_prediction.pipeline.model_evaluation_pipeline import ModelEvaluationTrainingPipeline
 
 
 STAGE_NAME = "Data Ingestion Stage"
@@ -49,3 +50,15 @@ try:
 except Exception as e:
     logger.exception(e)
     raise e
+
+STAGE_NAME = "Model Evaluation Stage"
+
+try:
+    logger.info(f">>>>>> Estágio {STAGE_NAME} iniciado <<<<<<")
+    obj = ModelEvaluationTrainingPipeline()
+    obj.initiate_model_evaluation()
+    logger.info(f">>>>>> Estágio {STAGE_NAME} concluído <<<<<<\n\nx==========x")
+except Exception as e:
+    logger.exception(e)
+    raise e
+
