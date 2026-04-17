@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previsão de Qualidade de Vinho</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --primary-color: #5a189a;
+            --secondary-color: #7b2cbf;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: url('{{ url_for("static", filename="img/bg.png") }}') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #444;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(123, 44, 191, 0.25);
+        }
+
+        .btn-predict {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-predict:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(90, 24, 154, 0.4);
+            color: white;
+        }
+
+        .input-group-text {
+            background: transparent;
+            border-radius: 10px 0 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-card">
+        <h2>Previsão de Qualidade do Vinho</h2>
+        <p class="text-center text-muted mb-4">Insira as propriedades químicas do vinho para prever sua qualidade.</p>
+        
+        <form action="/predict" method="post">
+            <div class="row g-3">
+                <!-- Coluna 1 -->
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="fixed_acidity" class="form-label">Acidez Fixa</label>
+                        <input type="number" step="any" name="fixed_acidity" id="fixed_acidity" class="form-control" placeholder="Ex: 7.4" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="volatile_acidity" class="form-label">Acidez Volátil</label>
+                        <input type="number" step="any" name="volatile_acidity" id="volatile_acidity" class="form-control" placeholder="Ex: 0.7" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="citric_acid" class="form-label">Ácido Cítrico</label>
+                        <input type="number" step="any" name="citric_acid" id="citric_acid" class="form-control" placeholder="Ex: 0.0" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="residual_sugar" class="form-label">Açúcar Residual</label>
+                        <input type="number" step="any" name="residual_sugar" id="residual_sugar" class="form-control" placeholder="Ex: 1.9" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="chlorides" class="form-label">Cloretos</label>
+                        <input type="number" step="any" name="chlorides" id="chlorides" class="form-control" placeholder="Ex: 0.076" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="free_sulfur_dioxide" class="form-label">Dióxido de Enxofre Livre</label>
+                        <input type="number" step="any" name="free_sulfur_dioxide" id="free_sulfur_dioxide" class="form-control" placeholder="Ex: 11.0" required>
+                    </div>
+                </div>
+
+                <!-- Coluna 2 -->
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="total_sulfur_dioxide" class="form-label">Dióxido de Enxofre Total</label>
+                        <input type="number" step="any" name="total_sulfur_dioxide" id="total_sulfur_dioxide" class="form-control" placeholder="Ex: 34.0" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="density" class="form-label">Densidade</label>
+                        <input type="number" step="any" name="density" id="density" class="form-control" placeholder="Ex: 0.9978" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pH" class="form-label">pH</label>
+                        <input type="number" step="any" name="pH" id="pH" class="form-control" placeholder="Ex: 3.51" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sulphates" class="form-label">Sulfatos</label>
+                        <input type="number" step="any" name="sulphates" id="sulphates" class="form-control" placeholder="Ex: 0.56" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="alcohol" class="form-label">Álcool</label>
+                        <input type="number" step="any" name="alcohol" id="alcohol" class="form-control" placeholder="Ex: 9.4" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-predict">Prever Qualidade</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
