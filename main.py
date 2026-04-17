@@ -1,6 +1,8 @@
 from src.mlops_wine_prediction import logger
 from src.mlops_wine_prediction.pipeline.data_ingestion_pipeline import DataIngestionTrainingPipeline
 from src.mlops_wine_prediction.pipeline.data_validation_pipeline import DataValidationTrainingPipeline
+from src.mlops_wine_prediction.pipeline.data_transformation_pipeline import DataTransformationTrainingPipeline
+
 
 STAGE_NAME = "Data Ingestion Stage"
 
@@ -22,6 +24,16 @@ try:
     logger.info(f">>>>>> Estágio {STAGE_NAME} iniciado <<<<<<")
     obj = DataValidationTrainingPipeline()
     obj.initiate_data_validation()
+    logger.info(f">>>>>> Estágio {STAGE_NAME} concluído <<<<<<\n\nx==========x")
+except Exception as e:
+    logger.exception(e)
+    raise e
+
+STAGE_NAME = "Data Transformation Stage"
+try:
+    logger.info(f">>>>>> Estágio {STAGE_NAME} iniciado <<<<<<")
+    obj = DataTransformationTrainingPipeline()
+    obj.initiate_data_transformation()
     logger.info(f">>>>>> Estágio {STAGE_NAME} concluído <<<<<<\n\nx==========x")
 except Exception as e:
     logger.exception(e)
